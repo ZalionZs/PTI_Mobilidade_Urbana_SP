@@ -2,7 +2,7 @@
 
 A fonte primária utilizada para este PoC é o padrão **GTFS** (_General Transit Feed Specification_), que fornece dados de rotas e horários. Para fins de demonstração, os dados foram simulados.
 
-- **Link de Origem (Exemplo):** https://prefeitura.sp.gov.br/web/mobilidade/w/institucional/sptrans/acesso_a_informacao/152415https://prefeitura.sp.gov.br/web/mobilidade/w/institucional/sptrans/acesso_a_informacao/152415
+- **Link de Origem (Exemplo):** https://prefeitura.sp.gov.br/web/mobilidade/w/institucional/sptrans/acesso_a_informacao/152415
 
 ### 2. Definição das Tecnologias
 
