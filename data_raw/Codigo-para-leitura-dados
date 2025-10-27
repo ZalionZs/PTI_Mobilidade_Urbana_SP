@@ -1,0 +1,78 @@
+import pandas as pd
+from pathlib import Path
+
+# Caminho da pasta onde estão os arquivos GTFS
+pasta_dados = Path("./gtfs/")
+
+# Lista de arquivos principais do GTFS
+arquivos_obrigatorios = ["routes.txt", "trips.txt", "stop_times.txt"]
+
+# Verifica se todos os arquivos existem
+for arquivo in arquivos_obrigatorios:
+    if not (pasta_dados / arquivo).exists():
+        raise FileNotFoundError(f"Arquivo não encontrado: {arquivo}")
+
+# Leitura dos arquivos GTFS
+rotas = pd.read_csv(pasta_dados / "routes.txt", dtype=str)
+viagens = pd.read_csv(pasta_dados / "trips.txt", dtype=str)
+horarios = pd.read_csv(pasta_dados / "stop_times.txt", dtype=str)
+
+# Junção das tabelas
+dados = pd.merge(viagens, rotas, on="route_id", how="left")
+dados = pd.merge(dados, horarios, on="trip_id", how="left")
+
+# Limpeza de dados
+dados = dados.dropna(subset=["arrival_time", "departure_time", "stop_id"])
+dados = dados.drop_duplicates()
+
+# Conversão de horas
+def converter_para_tempo(hora):
+    try:
+        h, m, s = map(int, hora.split(":"))
+        h = h % 24
+        return pd.Timestamp(1900, 1, 1, h, m, s)
+    except:
+        return pd.NaT
+
+dados["hora_chegada"] = dados["arrival_time"].apply(converter_para_tempo)
+dados["hora_partida"] = dados["departure_time"].apply(converter_para_tempo)
+
+# Cálculo de duração e pontualidade
+dados["duracao_minutos"] = (dados["hora_partida"] - dados["hora_chegada"]).dt.total_seconds() / 60
+dados["duracao_minutos"] = dados["duracao_minutos"].fillna(0).clip(lower=0)
+dados["pontualidade"] = 100
+
+# Seleção de colunas principais
+colunas_principais = [
+    "route_id",
+    "route_short_name",
+    "route_long_name",
+    "trip_id",
+    "trip_headsign",
+    "stop_id",
+    "hora_chegada",
+    "hora_partida",
+    "stop_sequence",
+    "duracao_minutos",
+    "pontualidade"
+]
+
+dados_tratados = dados[colunas_principais]
+
+# Renomeando colunas para português no CSV final
+dados_tratados.rename(columns={
+    "route_id": "id_rota",
+    "route_short_name": "nome_curto_rota",
+    "route_long_name": "nome_longo_rota",
+    "trip_id": "id_viagem",
+    "trip_headsign": "destino_viagem",
+    "stop_id": "id_parada",
+    "stop_sequence": "sequencia_parada"
+}, inplace=True)
+
+# Exporta para CSV pronto para análise
+dados_tratados.to_csv("dados_tratados.csv", index=False, encoding="utf-8-sig")
+
+print("✅ Processo ETL concluído com sucesso!")
+print("Arquivo gerado: dados_tratados.csv")
+print(dados_tratados.head())
