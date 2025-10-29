@@ -31,4 +31,39 @@ print(f"Membro 3: Limpeza concluída. Total de registros para trabalho: {len(df_
 # df_trabalho é a base de dados limpa que será usada pelo Membro 4
 df_trabalho = df_reais_limpo 
 
-# Commit do Membro 3: Salva o arquivo e envia
+# ==============================================================================
+# TRECHO DO MEMBRO 4: CRUZAMENTO DE DADOS E CÁLCULO DE MÉTRICAS (T)
+# ==============================================================================
+print("Membro 4: Iniciando cruzamento de dados e cálculo de métricas...")
+# 1. Preparação da Tabela de Viagens (Horário Previsto)
+df_viagens['arrival_time_dt'] = pd.to_datetime(df_viagens['arrival_time'], format='%H:%M:%S', errors='coerce').dt.time
+# 2. Cruzamento (Merge): Junta a tabela REAL com a tabela PREVISTA (schedule)
+df_analise = pd.merge(
+    df_trabalho, 
+    df_viagens[['trip_id', 'arrival_time_dt']], 
+    on='trip_id', 
+    how='left'
+)
+# 3. Função Auxiliar para Calcular Tempo Total em Segundos (Necessário para subtração)
+def time_to_seconds(t):
+    if pd.isna(t):
+        return 0
+    return t.hour * 3600 + t.minute * 60 + t.second
+
+# Conversão para segundos e cálculo da métrica
+df_analise['real_segundos'] = df_analise['horario_real_dt'].apply(time_to_seconds)
+df_analise['previsto_segundos'] = df_analise['arrival_time_dt'].apply(time_to_seconds)
+
+# FÓRMULA DO ÍNDICE DE PONTUALIDADE (atraso em minutos)
+# Atraso = (Tempo Real - Tempo Previsto) / 60
+df_analise['atraso_segundos'] = df_analise['real_segundos'] - df_analise['previsto_segundos']
+df_analise['atraso_minutos'] = df_analise['atraso_segundos'] / 60 
+
+# 4. Enriquecimento: Criação da Dimensão "Período do Dia"
+# Usaremos 'lotacao' > 40 como um índice de lotação alta
+df_analise['indice_lotacao'] = df_analise['lotacao'].apply(lambda x: 'Alta' if x >= 40 else 'Baixa')
+
+# df_final é a base de dados pronta para análise
+df_final = df_analise.dropna(subset=['atraso_minutos']) 
+
+print("Membro 4: Cálculo de Pontualidade e enriquecimento concluídos.")
