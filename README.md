@@ -40,7 +40,7 @@ Status
 - Python 3.9+ (recomenda-se 3.11)
 - Power BI Desktop (para visualização)
 
-3. Como executar (exemplo PowerShell)
+5. Como executar (exemplo PowerShell)
 1. Criar e ativar ambiente:
    - python -m venv .venv
    - .venv\Scripts\Activate.ps1
