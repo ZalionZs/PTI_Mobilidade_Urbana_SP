@@ -69,13 +69,4 @@ df_final = df_analise.dropna(subset=['atraso_minutos'])
 
 print("Membro 4: Cálculo de Pontualidade e enriquecimento concluídos.")
 
-# ==============================================================================
-# TRECHO ADICIONAL: GRAVAÇÃO DO CSV DE SAÍDA (Membro 5 - Carga)
-# ==============================================================================
-# Garante que a pasta de saída existe e escreve o arquivo final para `data_treated/dados_tratados.csv`.
-os.makedirs(TREATED_PATH, exist_ok=True)
-try:
-    df_final.to_csv(OUTPUT_FILE, index=False)
-    print(f"Membro 5: Arquivo de saída gravado em: {OUTPUT_FILE} (linhas: {len(df_final)})")
-except Exception as e:
-    print(f"ERRO: Não foi possível escrever o arquivo de saída {OUTPUT_FILE}. Detalhe: {e}")
+
