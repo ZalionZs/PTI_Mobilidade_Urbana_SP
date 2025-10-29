@@ -9,7 +9,7 @@ Projeto de prova de conceito para análise de pontualidade do transporte públic
 Status
 
 - Dados: simulados
-- Output principal: output/dados_tratados.csv
+- Output principal: data_treated/dados_tratados.csv
 - Visualização: Power BI (.pbix)
 
 1. Fontes de Dados (Extração)
@@ -21,7 +21,7 @@ Status
    | Etapa | Tecnologia | Função Detalhada |
    | :------------------------------- | :------------------------- | :------------------------------------------------------------------------------------------ |
    | ETL (Extração/Transformação) | Python (pandas) | Limpeza, cruzamento e cálculo da métrica de pontualidade. |
-   | Carga (L) — DDL/DML | CSV no repositório | `output/dados_tratados.csv` como DWH simplificado. |
+   | Carga (L) — DDL/DML | CSV no repositório | `data_treated/dados_tratados.csv` como DWH simplificado. |
    | OLAP / Visualização | Power BI Desktop | Análises multidimensionais e dashboards. |
 
 3. Papéis e Responsabilidades (6 membros)
@@ -40,23 +40,23 @@ Status
 - Python 3.9+ (recomenda-se 3.11)
 - Power BI Desktop (para visualização)
 
-5. Como executar (exemplo PowerShell)
+3. Como executar (exemplo PowerShell)
 1. Criar e ativar ambiente:
    - python -m venv .venv
    - .venv\Scripts\Activate.ps1
 1. Instalar dependências:
    - pip install -r requirements.txt
 1. Executar ETL (ajuste o caminho se necessário):
-   - python src/etl.py
+   - python scripts/etl_scripts.py
 1. Resultado:
 
-   - output/dados_tratados.csv
+   - data_treated/dados_tratados.csv
 
 1. Estrutura sugerida do repositório
 
-- /src — scripts Python (etl.py, utils.py, ...)
+- /scripts — scripts Python (ex.: `scripts/etl_scripts.py`)
 - /data_raw — dados GTFS simulados
-- /output — dados_tratados.csv (resultado)
+- /data_treated — dados_tratados.csv (resultado)
 - /reports — Power BI (.pbix) / relatórios
 - README.md
 - requirements.txt

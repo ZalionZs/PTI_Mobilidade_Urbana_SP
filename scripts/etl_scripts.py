@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+import sys
 
 # Define o caminho base do projeto para encontrar as pastas de dados
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -16,8 +17,8 @@ try:
     df_reais = pd.read_csv(os.path.join(RAW_PATH, 'dados_reais_simulados.csv'))
     df_viagens = pd.read_csv(os.path.join(RAW_PATH, 'gtfs_viagens_simuladas.csv'))
 except FileNotFoundError as e:
-    print(f"ERRO CRÍTICO: Arquivo de dados não encontrado. Verifique se estão na pasta data_raw/. Detalhe: {e}")
-    exit()
+    print(f"ERRO CRÍTICO: Arquivo de dados não encontrado. Verifique se os arquivos existem em {RAW_PATH}/. Detalhe: {e}", file=sys.stderr)
+    sys.exit(1)
     
 # 1. Limpeza Básica: Remoção de Duplicatas e Nulos
 df_reais_limpo = df_reais.drop_duplicates()
@@ -67,3 +68,14 @@ df_analise['indice_lotacao'] = df_analise['lotacao'].apply(lambda x: 'Alta' if x
 df_final = df_analise.dropna(subset=['atraso_minutos']) 
 
 print("Membro 4: Cálculo de Pontualidade e enriquecimento concluídos.")
+
+# ==============================================================================
+# TRECHO ADICIONAL: GRAVAÇÃO DO CSV DE SAÍDA (Membro 5 - Carga)
+# ==============================================================================
+# Garante que a pasta de saída existe e escreve o arquivo final para `data_treated/dados_tratados.csv`.
+os.makedirs(TREATED_PATH, exist_ok=True)
+try:
+    df_final.to_csv(OUTPUT_FILE, index=False)
+    print(f"Membro 5: Arquivo de saída gravado em: {OUTPUT_FILE} (linhas: {len(df_final)})")
+except Exception as e:
+    print(f"ERRO: Não foi possível escrever o arquivo de saída {OUTPUT_FILE}. Detalhe: {e}")
