@@ -3,10 +3,11 @@ import os
 import sys
 
 # Define o caminho base do projeto para encontrar as pastas de dados
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-RAW_PATH = os.path.join(BASE_DIR, 'data_raw')
-TREATED_PATH = os.path.join(BASE_DIR, 'data_treated')
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # caminho da pasta onde está o script
+RAW_PATH = os.path.join(BASE_DIR, 'data_raw')          # data_raw dentro da pasta do script
+TREATED_PATH = os.path.join(BASE_DIR, 'data_treated')  # pasta para salvar dados tratados
 OUTPUT_FILE = os.path.join(TREATED_PATH, 'dados_tratados.csv')
+
 
 # ==============================================================================
 # TRECHO DO MEMBRO 3: LEITURA, LIMPEZA E PREPARAÇÃO DE DADOS (T)
@@ -69,4 +70,13 @@ df_final = df_analise.dropna(subset=['atraso_minutos'])
 
 print("Membro 4: Cálculo de Pontualidade e enriquecimento concluídos.")
 
+# Cria a pasta data_treated  --- (etapa 5)
+if not os.path.exists(TREATED_PATH):
+    os.makedirs(TREATED_PATH)
+    print(f"Pasta criada: {TREATED_PATH}")
 
+# Salvando o CSV final
+
+df_final.to_csv(OUTPUT_FILE, index=False)
+print(f"ETL concluído! Arquivo final salvo em: {OUTPUT_FILE}")
+print(f"Total de registros no CSV final: {len(df_final)}")
