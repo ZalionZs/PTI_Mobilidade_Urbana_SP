@@ -73,4 +73,4 @@ Status
 
 9. Licença
 
-- MIT (adicione um arquivo LICENSE com o texto da licença).
+- MIT (adicione um arquivo LICENSE com o texto da licença)
