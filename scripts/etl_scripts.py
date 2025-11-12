@@ -65,8 +65,35 @@ df_analise['atraso_minutos'] = df_analise['atraso_segundos'] / 60
 df_analise['indice_lotacao'] = df_analise['lotacao'].apply(lambda x: 'Alta' if x >= 40 else 'Baixa')
 
 # df_final é a base de dados pronta para análise
+
 df_final = df_analise.dropna(subset=['atraso_minutos']) 
 
 print("Membro 4: Cálculo de Pontualidade e enriquecimento concluídos.")
 
+
+#Gerando data_treated/dados_tratados.csv
+# Arredondando colunas numéricas
+df_final['atraso_minutos'] = df_final['atraso_minutos'].round(2)
+df_final['real_segundos'] = df_final['real_segundos'].round(0)
+df_final['previsto_segundos'] = df_final['previsto_segundos'].round(0)
+df_final['atraso_segundos'] = df_final['atraso_segundos'].round(0)
+
+#Reorganização para facilitar a leitura 
+df_final = df_final[[
+    'trip_id', 'stop_id', 'horario_real', 'horario_real_dt',
+    'arrival_time_dt', 'lotacao', 'indice_lotacao',
+    'real_segundos', 'previsto_segundos', 'atraso_segundos', 'atraso_minutos'
+]]
+
+df_final['indice_lotacao'] = df_final['indice_lotacao'].str.strip()
+
+#Transformando a coluna indice_lotação em um tipo categórico ordenado
+df_final['indice_lotacao'] = pd.Categorical(df_final['indice_lotacao'], categories=['Baixa','Média','Alta'], ordered=True)
+
+pasta = './data_treated'
+os.makedirs(pasta,exist_ok=True)
+
+df_final.to_csv(f'{pasta}/dados_tratados.csv', sep=';', index=False, encoding='utf-8-sig', float_format='%.2f')
+
+print("Membro 5: Geração dos dados_tratados.csv concluida")
 
