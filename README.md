@@ -1,84 +1,79 @@
-PoC — Mobilidade Urbana (SP)
+# PoC — Mobilidade Urbana (SP)
 
+[![Status](https://img.shields.io/badge/status-draft-orange)]()
+[![License](https://img.shields.io/badge/license-MIT-blue)]()
 
-
-
-Descrição Projeto de prova de conceito para análise de pontualidade do transporte público em São Paulo usando o padrão GTFS. Os dados usados neste repositório são simulados para demonstração.
+Descrição
+Projeto de prova de conceito para análise de pontualidade do transporte público em São Paulo usando o padrão GTFS. Os dados usados neste repositório são simulados para demonstração.
 
 Status
 
-Dados: simulados
+- Dados: simulados
+- Output principal: data_treated/dados_tratados.csv
+- Visualização: Power BI (.pbix)
 
-Output principal: data_treated/dados_tratados.csv
+1. Fontes de Dados (Extração)
+   A fonte primária é o padrão GTFS (General Transit Feed Specification). Exemplo de origem pública:
 
-Visualização: Power BI (.pbix)
+- https://prefeitura.sp.gov.br/web/mobilidade/w/institucional/sptrans/acesso_a_informacao/152415
 
-Fontes de Dados (Extração) A fonte primária é o padrão GTFS (General Transit Feed Specification). Exemplo de origem pública:
+2. Tecnologias
+   | Etapa | Tecnologia | Função Detalhada |
+   | :------------------------------- | :------------------------- | :------------------------------------------------------------------------------------------ |
+   | ETL (Extração/Transformação) | Python (pandas) | Limpeza, cruzamento e cálculo da métrica de pontualidade. |
+   | Carga (L) — DDL/DML | CSV no repositório | `data_treated/dados_tratados.csv` como DWH simplificado. |
+   | OLAP / Visualização | Power BI Desktop | Análises multidimensionais e dashboards. |
 
-https://prefeitura.sp.gov.br/web/mobilidade/w/institucional/sptrans/acesso_a_informacao/152415
+3. Papéis e Responsabilidades (6 membros)
+   | Membro | Etapa Principal | Contribuição |
+   | :-------------------------- | :--------------------------------- | :---------------------------------------------------------- |
+   | Membro 1 (Gerente) | Gestão e Estrutura | Criação do repositório e coordenação. |
+   | Membro 2 (Extração) | Documentação / Fonte | Identificação das fontes e preparo dos dados brutos. |
+   | Membro 3 (T - Limpeza) | Transformação — Limpeza | Remoção de nulos/duplicatas e validação. |
+   | Membro 4 (T - Métricas) | Transformação — Enriquecimento | Cálculo do Índice de Pontualidade. |
+   | Membro 5 (Carga) | Carga (L) | Geração do `dados_tratados.csv`. |
+   | Membro 6 (Visualização) | OLAP / Dashboards / Vídeo | Desenvolvimento do painel Power BI e vídeo demonstrativo. |
 
-Tecnologias | Etapa | Tecnologia | Função Detalhada | | :------------------------------- | :------------------------- | :------------------------------------------------------------------------------------------ | | ETL (Extração/Transformação) | Python (pandas) | Limpeza, cruzamento e cálculo da métrica de pontualidade. | | Carga (L) — DDL/DML | CSV no repositório | data_treated/dados_tratados.csv como DWH simplificado. | | OLAP / Visualização | Power BI Desktop | Análises multidimensionais e dashboards. |
+4. Pré-requisitos
 
-Papéis e Responsabilidades (6 membros) | Membro | Etapa Principal | Contribuição | | :-------------------------- | :--------------------------------- | :---------------------------------------------------------- | | Membro 1 (Gerente) | Gestão e Estrutura | Criação do repositório e coordenação. | | Membro 2 (Extração) | Documentação / Fonte | Identificação das fontes e preparo dos dados brutos. | | Membro 3 (T - Limpeza) | Transformação — Limpeza | Remoção de nulos/duplicatas e validação. | | Membro 4 (T - Métricas) | Transformação — Enriquecimento | Cálculo do Índice de Pontualidade. | | Membro 5 (Carga) | Carga (L) | Geração do dados_tratados.csv. | | Membro 6 (Visualização) | OLAP / Dashboards / Vídeo | Desenvolvimento do painel Power BI e vídeo demonstrativo. |
+- Windows 10/11
+- Python 3.9+ (recomenda-se 3.11)
+- Power BI Desktop (para visualização)
 
-Pré-requisitos
+5. Como executar (exemplo PowerShell)
+1. Criar e ativar ambiente:
+   - python -m venv .venv
+   - .venv\Scripts\Activate.ps1
+1. Instalar dependências:
+   - pip install -r requirements.txt
+1. Executar ETL (ajuste o caminho se necessário):
+   - python scripts/etl_scripts.py
+1. Resultado:
 
-Windows 10/11
+   - data_treated/dados_tratados.csv
 
-Python 3.9+ (recomenda-se 3.11)
+1. Estrutura sugerida do repositório
 
-Power BI Desktop (para visualização)
+- /scripts — scripts Python (ex.: `scripts/etl_scripts.py`)
+- /data_raw — dados GTFS simulados
+- /data_treated — dados_tratados.csv (resultado)
+- /reports — Power BI (.pbix) / relatórios
+- README.md
+- requirements.txt
 
-Como executar (exemplo PowerShell)
+7. Observações importantes
 
-Criar e ativar ambiente:
+- Os dados aqui são simulados; validar e ajustar scripts antes de apontar feeds GTFS reais.
+- Documentar versão do Python e dependências no requirements.txt.
 
-python -m venv .venv
+8. Contribuição e Issues
 
-.venv\Scripts\Activate.ps1
+- Abra issues para problemas/funcionalidades.
+- Crie PRs contra a branch main; siga um CONTRIBUTING.md (se disponível).
 
-Instalar dependências:
+9. Licença
 
-pip install -r requirements.txt
-
-Executar ETL (ajuste o caminho se necessário):
-
-python scripts/etl_scripts.py
-
-Resultado:
-
-data_treated/dados_tratados.csv
-
-Estrutura sugerida do repositório
-
-/scripts — scripts Python (ex.: scripts/etl_scripts.py)
-
-/data_raw — dados GTFS simulados
-
-/data_treated — dados_tratados.csv (resultado)
-
-/reports — Power BI (.pbix) / relatórios
-
-README.md
-
-requirements.txt
-
-Observações importantes
-
-Os dados aqui são simulados; validar e ajustar scripts antes de apontar feeds GTFS reais.
-
-Documentar versão do Python e dependências no requirements.txt.
-
-Contribuição e Issues
-
-Abra issues para problemas/funcionalidades.
-
-Crie PRs contra a branch main; siga um CONTRIBUTING.md (se disponível).
-
-Licença
-
-MIT (adicione um arquivo LICENSE com o texto da licença).
-
+- MIT (adicione um arquivo LICENSE com o texto da licença).
 10. Operações OLAP e Dashboards (Responsável: Natalia)
 
 As análises OLAP foram realizadas no Power BI a partir do arquivo data_treated/dados_tratados.csv, resultante do processo de ETL.
@@ -119,7 +114,7 @@ Vídeo Demonstrativo (1 minuto)
 
 O vídeo exibindo os dashboards e as operações OLAP está disponível em:
 
-/reports/video_demonstrativo.mp4
+/evidencias/video_demonstrativo.mp4
 
 Inclui:
 
@@ -127,4 +122,4 @@ Breve visão geral do dataset carregado;
 
 Demonstração de cada gráfico OLAP implementado;
 
-Conclusões extraídas das análises.  
+Conclusões extraídas das análises.
