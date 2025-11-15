@@ -74,6 +74,7 @@ Status
 9. Licença
 
 - MIT (adicione um arquivo LICENSE com o texto da licença).
+  
 10. Operações OLAP e Dashboards (Responsável: Natalia)
 
 As análises OLAP foram realizadas no Power BI a partir do arquivo data_treated/dados_tratados.csv, resultante do processo de ETL.
@@ -82,12 +83,14 @@ Objetivo
 
 Fornecer uma visão multidimensional sobre a pontualidade e a lotação das viagens simuladas, apoiando decisões relacionadas à qualidade do transporte público.
 
-Operações OLAP Implementadas
-Tipo de Operação	Descrição	Evidência
-ROLL-UP	Cálculo do atraso médio por período do dia (manhã, tarde, noite).	Dashboard 1
-SLICE	Filtragem de viagens com lotação alta (índice "Alta").	Dashboard 2
-DRILL-DOWN	Detalhamento da análise por trip_id.	Dashboard 3
-DICE	Viagens com atraso > 5 minutos e lotação alta.	Dashboard 4
+| Tipo de Operação | Descrição                                                         | Evidência   |
+| ---------------- | ----------------------------------------------------------------- | ----------- |
+| ROLL-UP          | Agregação da lotação média por hora, exibida na linha “Lotação por Horário”. | Gráfico de linha (topo) |
+| SLICE            | Filtragem por faixa horária (Madrugada, Manhã, Tarde) pelos botões superiores.            | Filtro superior (faixa horária) |
+| DRILL-DOWN       | Detalhamento por ponto de parada ou viagem nos filtros “Buscar pontos de parada” e “Buscar por viagem”.                            | Filtros laterais (dropdowns) |
+| DICE             | Combinação de condições como faixa horária + tipo de viagem + lotação, refletindo nos gráficos de atraso e lotação.                    | Gráficos “Atraso por Faixa Horária” e “Lotação por Faixa Horária” |
+
+
 Dashboards Criados no Power BI
 
 Atraso médio por período do dia — gráfico de colunas (ROLL-UP).
@@ -98,7 +101,7 @@ Detalhamento de viagens por trip_id — tabela com drill-down (DRILL-DOWN).
 
 Filtro combinado: atraso > 5 min + lotação alta — análise segmentada (DICE).
 
-As imagens desses dashboards estão disponíveis na pasta /reports/imagens.
+As imagens desses gráficos estão disponíveis na pasta /evidencias.
 
 Principais Insights
 
@@ -112,9 +115,11 @@ Viagens com atraso elevado (> 5 min) geralmente apresentam lotações maiores.
 
 Vídeo Demonstrativo (1 minuto)
 
-O vídeo exibindo os dashboards e as operações OLAP está disponível em:
+O vídeo “Demonstração do Dashboard - Análise de Atrasos e Lotação (PTI)” está disponível na pasta:
 
-/evidencias/video_demonstrativo.mp4
+/evidencias/Demonstração do Dashboard - Análise de Atrasos e Lotação (PTI).mp4
+
+O arquivo foi compactado para atender ao limite de upload de 25 MB do GitHub.
 
 Inclui:
 
