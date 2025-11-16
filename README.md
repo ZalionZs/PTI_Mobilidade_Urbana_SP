@@ -41,18 +41,18 @@ Status
 - Power BI Desktop (para visualização)
 
 5. Como executar (exemplo PowerShell)
-1. Criar e ativar ambiente:
+   . Criar e ativar ambiente:
+
    - python -m venv .venv
    - .venv\Scripts\Activate.ps1
-1. Instalar dependências:
+     . Instalar dependências:
    - pip install -r requirements.txt
-1. Executar ETL (ajuste o caminho se necessário):
+     . Executar ETL (ajuste o caminho se necessário):
    - python scripts/etl_scripts.py
-1. Resultado:
-
+     . Resultado:
    - data_treated/dados_tratados.csv
 
-1. Estrutura sugerida do repositório
+6. Estrutura sugerida do repositório
 
 - /scripts — scripts Python (ex.: `scripts/etl_scripts.py`)
 - /data_raw — dados GTFS simulados
@@ -74,22 +74,21 @@ Status
 9. Licença
 
 - MIT (adicione um arquivo LICENSE com o texto da licença).
-  
+
 10. Operações OLAP e Dashboards (Responsável: Natalia)
 
-As análises OLAP foram realizadas no Power BI a partir do arquivo data_treated/dados_tratados.csv, resultante do processo de ETL.
+11. As análises OLAP foram realizadas no Power BI a partir do arquivo data_treated/dados_tratados.csv, resultante do processo de ETL.
 
 Objetivo
 
 Fornecer uma visão multidimensional sobre a pontualidade e a lotação das viagens simuladas, apoiando decisões relacionadas à qualidade do transporte público.
 
-| Tipo de Operação | Descrição                                                         | Evidência   |
-| ---------------- | ----------------------------------------------------------------- | ----------- |
-| ROLL-UP          | Agregação da lotação média por hora, exibida na linha “Lotação por Horário”. | Gráfico de linha (topo) |
-| SLICE            | Filtragem por faixa horária (Madrugada, Manhã, Tarde) pelos botões superiores.            | Filtro superior (faixa horária) |
-| DRILL-DOWN       | Detalhamento por ponto de parada ou viagem nos filtros “Buscar pontos de parada” e “Buscar por viagem”.                            | Filtros laterais (dropdowns) |
-| DICE             | Combinação de condições como faixa horária + tipo de viagem + lotação, refletindo nos gráficos de atraso e lotação.                    | Gráficos “Atraso por Faixa Horária” e “Lotação por Faixa Horária” |
-
+| Tipo de Operação | Descrição                                                                                                           | Evidência                                                         |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| ROLL-UP          | Agregação da lotação média por hora, exibida na linha “Lotação por Horário”.                                        | Gráfico de linha (topo)                                           |
+| SLICE            | Filtragem por faixa horária (Madrugada, Manhã, Tarde) pelos botões superiores.                                      | Filtro superior (faixa horária)                                   |
+| DRILL-DOWN       | Detalhamento por ponto de parada ou viagem nos filtros “Buscar pontos de parada” e “Buscar por viagem”.             | Filtros laterais (dropdowns)                                      |
+| DICE             | Combinação de condições como faixa horária + tipo de viagem + lotação, refletindo nos gráficos de atraso e lotação. | Gráficos “Atraso por Faixa Horária” e “Lotação por Faixa Horária” |
 
 Dashboards Criados no Power BI
 
@@ -100,6 +99,18 @@ Correlação entre lotação e atraso — gráfico de dispersão (SLICE + análi
 Detalhamento de viagens por trip_id — tabela com drill-down (DRILL-DOWN).
 
 Filtro combinado: atraso > 5 min + lotação alta — análise segmentada (DICE).
+
+12. Evidências (links diretos):
+
+Painel (PNG): ./PTI_Mobilidade_Urbana_SP (1).png
+
+Relatório (PDF): ./relatorio-mvp-pti.pdf
+
+Dataset tratado (CSV): ./dados_tratados.csv
+
+Notebook demo: ./evidencias/Demonstração da Dashboard - Análise de Atrasos e Lotação (PTI).ipynb (baixe para abrir)
+
+Vídeo: ./evidencias/Demonstração do Dashboard - Análise de Atrasos e Lotação (PTI).mp4 (baixe para assistir)
 
 As imagens desses gráficos estão disponíveis na pasta /evidencias.
 
@@ -112,19 +123,3 @@ O período da manhã concentrou a maior quantidade de atrasos positivos.
 Aproximadamente 65% das viagens chegaram pontualmente ou adiantadas.
 
 Viagens com atraso elevado (> 5 min) geralmente apresentam lotações maiores.
-
-Vídeo Demonstrativo (1 minuto)
-
-O vídeo “Demonstração do Dashboard - Análise de Atrasos e Lotação (PTI)” está disponível na pasta:
-
-/evidencias/Demonstração do Dashboard - Análise de Atrasos e Lotação (PTI).mp4
-
-O arquivo foi compactado para atender ao limite de upload de 25 MB do GitHub.
-
-Inclui:
-
-Breve visão geral do dataset carregado;
-
-Demonstração de cada gráfico OLAP implementado;
-
-Conclusões extraídas das análises.
